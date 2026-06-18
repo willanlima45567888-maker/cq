@@ -1,0 +1,7 @@
+{
+  "version": "v0001",
+  "display_name": "OSWbb netstat 标准格式",
+  "captured_at": "2026-06-17",
+  "added_by": "auto-detect",
+  "notes": "Linux OSWbb v22.1.0AHF（及后续 v* 变体）的 netstat 输出。每个 cycle 包含：1) ip -s link 输出（每个网络接口的状态 + RX/TX 计数器）；2) /proc/net/snmp 解析后的 kernel counter（IP/ICMP/TCP/UDP/IP6/TcpExt/IpExt/MPTcpExt）。"
+}

@@ -1,0 +1,42 @@
+{
+  "banner": "Linux OSWbb v7.3.3",
+  "device_header": [
+    "rrqm/s",
+    "wrqm/s",
+    "r/s",
+    "w/s",
+    "rkB/s",
+    "wkB/s",
+    "avgrq-sz",
+    "avgqu-sz",
+    "await",
+    "r_await",
+    "w_await",
+    "svctm",
+    "%util"
+  ],
+  "cpu_header": [
+    "%user",
+    "%nice",
+    "%system",
+    "%iowait",
+    "%steal",
+    "%idle"
+  ],
+  "version": "v0001",
+  "column_mapping": {
+    "rrqm/s": "rrqm_s",
+    "wrqm/s": "wrqm_s",
+    "r/s": "r_s",
+    "w/s": "w_s",
+    "rkB/s": "rkb_s",
+    "wkB/s": "wkb_s",
+    "avgrq-sz": "avgrq_sz",
+    "avgqu-sz": "avgqu_sz",
+    "await": "await",
+    "r_await": "r_await",
+    "w_await": "w_await",
+    "svctm": "svctm",
+    "%util": "util"
+  }
+}

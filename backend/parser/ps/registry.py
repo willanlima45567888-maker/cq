@@ -1,0 +1,129 @@
+"""
+ps 格式版本注册表（类似 iostat/registry）。
+
+按格式版本（v0001、v0002...）管理多个 parser，每个版本在
+versions/<id>/ 目录下，包含 parser.py、manifest.json 和 fingerprint.json。
+"""
+
+import importlib
+import json
+from pathlib import Path
+from typing import Any
+
+from .exceptions import UnknownPsFormat
+from .fingerprint import CYCLE_PATTERN, extract_fingerprint
+
+
+VERSIONS_DIR = Path(__file__).parent / 'versions'
+
+
+def _fingerprints_match(file_fp: dict, known_fp: dict) -> bool:
+    """fingerprint 严格匹配：banner + cycle_pattern + ps_header 集合全部相等"""
+    if file_fp.get('banner') != known_fp.get('banner'):
+        return False
+    if file_fp.get('cycle_pattern') != known_fp.get('cycle_pattern'):
+        return False
+    file_hdr = set(file_fp.get('ps_header') or [])
+    known_hdr = set(known_fp.get('ps_header') or [])
+    if file_hdr != known_hdr:
+        return False
+    return True
+
+
+class PsVersionRegistry:
+    """ps 格式版本注册表，负责 detect + dispatch + 未知格式归档。"""
+
+    def __init__(self, versions_dir: Path | None = None) -> None:
+        self.versions_dir = versions_dir or VERSIONS_DIR
+        self.versions: dict[str, type] = {}  # version_id -> parser class
+        self.fingerprints: dict[str, dict] = {}  # version_id -> fingerprint json
+        self._load_all()
+
+    def _load_all(self) -> None:
+        """importlib 扫描 versions/ 目录，加载所有 VxxxxParser + 读取 fingerprint.json。
+
+        按版本号倒序加载（新版本优先）。
+        """
+        for entry in sorted(self.versions_dir.iterdir(), reverse=True):
+            if not entry.is_dir():
+                continue
+            parser_path = entry / 'parser.py'
+            fingerprint_path = entry / 'fingerprint.json'
+            if not parser_path.exists() or not fingerprint_path.exists():
+                continue
+            mod = importlib.import_module(
+                f'backend.parser.ps.versions.{entry.name}.parser'
+            )
+            cls_name = 'V' + entry.name[1:].upper() + 'Parser'
+            cls = getattr(mod, cls_name, None)
+            if cls is not None:
+                self.versions[cls.VERSION] = cls
+                fp = json.loads(fingerprint_path.read_text(encoding='utf-8'))
+                self.fingerprints[cls.VERSION] = fp
+
+    def list_versions(self) -> list[dict]:
+        """返回所有已注册版本的 manifest 列表。"""
+        result = []
+        for entry in sorted(self.versions_dir.iterdir()):
+            manifest_path = entry / 'manifest.json'
+            if not manifest_path.exists():
+                continue
+            try:
+                manifest = json.loads(manifest_path.read_text(encoding='utf-8'))
+                fp = self.fingerprints.get(manifest['version'], {})
+                manifest['banner'] = fp.get('banner')
+                manifest.setdefault('active', True)
+                result.append(manifest)
+            except (json.JSONDecodeError, KeyError):
+                continue
+        return result
+
+    def parse(self, filepath: str):
+        """根据文件 fingerprint 自动匹配版本并解析。"""
+        ver = self.detect(filepath)
+        return self.versions[ver]().parse_file(filepath)
+
+    def detect(self, filepath: str) -> str:
+        """提取上传文件的 fingerprint，跟每个 v000x/fingerprint.json 严格匹配。
+
+        匹配规则（全部满足）：
+          1. banner 完全相等
+          2. cycle_pattern 字符串相等
+          3. ps_header 集合相等（顺序无关）
+
+        任一候选都不匹配 → 抛 UnknownPsFormat + 归档样本。
+        """
+        file_fp = extract_fingerprint(filepath)
+
+        for ver_id, known_fp in self.fingerprints.items():
+            if _fingerprints_match(file_fp, known_fp):
+                return ver_id
+
+        pending_path = self._archive_pending(filepath, file_fp)
+        raise UnknownPsFormat(
+            banner=file_fp.get('banner'),
+            ps_header=file_fp.get('ps_header'),
+            pending_path=str(pending_path),
+        )
+
+    # ─── 辅助方法 ───────────────────────────────────────────────────
+
+    def _archive_pending(self, filepath: str, file_fp: dict) -> Path:
+        """把未知格式样本复制到 pending/ 目录，返回归档路径。"""
+        import shutil
+        from datetime import datetime
+
+        project_root = Path(__file__).parent.parent.parent.parent
+        pending_dir = project_root / 'iostat-version' / 'pending'
+        pending_dir.mkdir(parents=True, exist_ok=True)
+
+        src = Path(filepath)
+        ts = datetime.now().strftime('%Y%m%d_%H%M%S')
+        # 用 fingerprint 头几个字符做短 hash 区分
+        hdr = (file_fp.get('ps_header') or [''])[0] or 'unknown'
+        short = ''.join(c for c in hdr if c.isalnum())[:8].lower() or 'sample'
+        suffix = '.dat.gz' if str(src).endswith('.dat.gz') else src.suffix
+        dst = pending_dir / f'ps_{ts}_{short}{suffix}'
+
+        shutil.copy2(src, dst)
+        return dst

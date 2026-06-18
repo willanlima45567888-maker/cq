@@ -1,0 +1,7 @@
+{
+  "version": "v0002",
+  "display_name": "OSWbb top 标准格式（12 列）",
+  "captured_at": "2026-06-17",
+  "added_by": "auto-detect",
+  "notes": "Linux OSWbb v22.1.0AHF（及后续 v* 变体）的 top 输出，12 列（PID/USER/PR/NI/VIRT/RES/SHR/S/%CPU/%MEM/TIME+/COMMAND）。结构与 v0001 一致，banner 变体不同。"
+}

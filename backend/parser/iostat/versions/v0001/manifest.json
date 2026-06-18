@@ -1,0 +1,8 @@
+{
+  "version": "v0001",
+  "display_name": "OSWbb 旧格式",
+  "captured_at": "2026-05-25",
+  "added_by": "ziming.guo",
+  "notes": "OSWbb v7.3.3，Device header 带冒号，14 个标准列",
+  "active": true
+}

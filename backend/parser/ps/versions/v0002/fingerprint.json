@@ -1,0 +1,35 @@
+{
+  "banner": "Linux OSWbb v7.3.3",
+  "cycle_pattern": "zzz\\s+\\*\\*\\*(.+)",
+  "ps_header": [
+    "USER",
+    "PID",
+    "PPID",
+    "PRI",
+    "%CPU",
+    "%MEM",
+    "VSZ",
+    "RSS",
+    "WCHAN",
+    "S",
+    "STARTED",
+    "TIME",
+    "COMMAND"
+  ],
+  "version": "v0002",
+  "column_mapping": {
+    "USER": "user",
+    "PID": "pid",
+    "PPID": "ppid",
+    "PRI": "pri",
+    "%CPU": "cpu_pct",
+    "%MEM": "mem_pct",
+    "VSZ": "vsz",
+    "RSS": "rss",
+    "WCHAN": "wchan",
+    "S": "s",
+    "STARTED": "started",
+    "TIME": "time",
+    "COMMAND": "command"
+  }
+}

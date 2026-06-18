@@ -1,0 +1,7 @@
+{
+  "version": "v0002",
+  "display_name": "OSWbb ps 标准格式（13 列）",
+  "captured_at": "2026-06-15",
+  "added_by": "ziming.guo",
+  "notes": "Linux OSWbb v7.3.3 的 ps 输出，13 列（USER/PID/PPID/PRI/%CPU/%MEM/VSZ/RSS/WCHAN/S/STARTED/TIME/COMMAND）。与 v0001 区别仅在 banner 文本（OSWbb vs WQWbb），列结构完全一致，解析器直接复用。"
+}

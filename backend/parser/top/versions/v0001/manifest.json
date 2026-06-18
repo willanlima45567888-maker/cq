@@ -1,0 +1,7 @@
+{
+  "version": "v0001",
+  "display_name": "WQWbb top 标准格式（12 列）",
+  "captured_at": "2026-06-16",
+  "added_by": "ziming.guo",
+  "notes": "Linux WQWbb v7.3.3 的 top 输出，12 列（PID/USER/PR/NI/VIRT/RES/SHR/S/%CPU/%MEM/TIME+/COMMAND）。每个 cycle 包含系统摘要（uptime/load avg/Tasks/%Cpu/Mem/Swap）和进程列表。"
+}

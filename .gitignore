@@ -1,0 +1,22 @@
+__pycache__/
+*.pyc
+*.pyo
+.env
+.venv/
+venv/
+*.egg-info/
+dist/
+build/
+.eggs/
+node_modules/
+.DS_Store
+*.log
+backend/cache_data/
+20260524_249/
+20260525_249/
+log_source_dir/
+oswupdownload_file/
+*.tar.gz
+# iostat-version/ 是用户面向的视角（软链到 backend/parser/iostat/versions/）
+# 内容已在 backend 下管理，根目录软链不进 git
+iostat-version/

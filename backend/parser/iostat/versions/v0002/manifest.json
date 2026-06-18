@@ -1,0 +1,8 @@
+{
+  "version": "v0002",
+  "display_name": "WQWbb 新格式（重庆 cq）",
+  "captured_at": "2026-06-09",
+  "added_by": "ziming.guo",
+  "notes": "WQWbb v7.3.3，Device header 无冒号，新增 %rrqm/%wrqm/aqu-sz/rareq-sz/wareq-sz 5 列",
+  "active": true
+}

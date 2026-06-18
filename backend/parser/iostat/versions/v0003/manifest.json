@@ -1,0 +1,8 @@
+{
+  "version": "v0003",
+  "display_name": "WQWbb 新格式 · 重庆 cq 镜像版",
+  "captured_at": "2026-06-12",
+  "added_by": "ziming.guo",
+  "notes": "v0002 的镜像版（fingerprint 与 v0002 完全相同，banner 沿用 Linux WQWbb v7.3.3）。当前用于验证版本注册流程；后续若采集到真实新格式，再替换 fingerprint.json。",
+  "active": true
+}

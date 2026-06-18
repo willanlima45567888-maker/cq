@@ -1,0 +1,6 @@
+{
+  "banner": "Linux OSWbb v*",
+  "cycle_pattern": "zzz\\s+\\*\\*\\*(.+)",
+  "section_marker": "#kernel",
+  "version": "v0001"
+}

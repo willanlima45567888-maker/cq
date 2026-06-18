@@ -1,0 +1,46 @@
+{
+  "banner": "Linux WQWbb v7.3.3",
+  "device_header": [
+    "r/s",
+    "w/s",
+    "rkB/s",
+    "wkB/s",
+    "rrqm/s",
+    "wrqm/s",
+    "%rrqm",
+    "%wrqm",
+    "r_await",
+    "w_await",
+    "aqu-sz",
+    "rareq-sz",
+    "wareq-sz",
+    "svctm",
+    "%util"
+  ],
+  "cpu_header": [
+    "%user",
+    "%nice",
+    "%system",
+    "%iowait",
+    "%steal",
+    "%idle"
+  ],
+  "version": "v0003",
+  "column_mapping": {
+    "r/s": "r_s",
+    "w/s": "w_s",
+    "rkB/s": "rkb_s",
+    "wkB/s": "wkb_s",
+    "rrqm/s": "rrqm_s",
+    "wrqm/s": "wrqm_s",
+    "%rrqm": "rrqm_pct",
+    "%wrqm": "wrqm_pct",
+    "r_await": "r_await",
+    "w_await": "w_await",
+    "aqu-sz": "aqu_sz",
+    "rareq-sz": "rareq_sz",
+    "wareq-sz": "wareq_sz",
+    "svctm": "svctm",
+    "%util": "util"
+  }
+}

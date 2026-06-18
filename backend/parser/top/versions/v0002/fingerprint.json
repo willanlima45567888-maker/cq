@@ -1,0 +1,33 @@
+{
+  "banner": "Linux OSWbb v*",
+  "cycle_pattern": "zzz\\s+\\*\\*\\*(.+)",
+  "top_header": [
+    "PID",
+    "USER",
+    "PR",
+    "NI",
+    "VIRT",
+    "RES",
+    "SHR",
+    "S",
+    "%CPU",
+    "%MEM",
+    "TIME+",
+    "COMMAND"
+  ],
+  "version": "v0002",
+  "column_mapping": {
+    "PID": "pid",
+    "USER": "user",
+    "PR": "pr",
+    "NI": "ni",
+    "VIRT": "virt_kb",
+    "RES": "res_kb",
+    "SHR": "shr_kb",
+    "S": "s",
+    "%CPU": "cpu_pct",
+    "%MEM": "mem_pct",
+    "TIME+": "time_str",
+    "COMMAND": "command"
+  }
+}
